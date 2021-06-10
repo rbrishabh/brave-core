@@ -18,6 +18,7 @@
 #include "brave/components/brave_wallet/browser/brave_wallet_constants.h"
 #include "brave/components/brave_wallet/browser/brave_wallet_provider_events_observer.h"
 #include "brave/components/brave_wallet/browser/brave_wallet_types.h"
+#include "brave/components/url_loader_component/url_loader_component.h"
 #include "url/gurl.h"
 
 namespace network {
@@ -27,7 +28,7 @@ class SimpleURLLoader;
 
 namespace brave_wallet {
 
-class EthJsonRpcController {
+class EthJsonRpcController : public url_loader_component::URLLoaderComponent {
  public:
   EthJsonRpcController(
       Network network,
@@ -95,11 +96,6 @@ class EthJsonRpcController {
   static GURL GetBlockTrackerURLFromNetwork(Network network);
 
  private:
-  using SimpleURLLoaderList =
-      std::list<std::unique_ptr<network::SimpleURLLoader>>;
-  void OnURLLoaderComplete(SimpleURLLoaderList::iterator iter,
-                           URLRequestCallback callback,
-                           const std::unique_ptr<std::string> response_body);
   void OnGetBalance(GetBallanceCallback callback,
                     const int status,
                     const std::string& body,
@@ -136,9 +132,7 @@ class EthJsonRpcController {
       const std::map<std::string, std::string>& headers);
 
   GURL network_url_;
-  SimpleURLLoaderList url_loaders_;
   Network network_;
-  scoped_refptr<network::SharedURLLoaderFactory> url_loader_factory_;
   scoped_refptr<base::ObserverListThreadSafe<BraveWalletProviderEventsObserver>>
       observers_;
 
