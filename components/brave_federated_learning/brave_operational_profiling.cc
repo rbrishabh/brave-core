@@ -25,7 +25,7 @@ namespace brave {
 
 namespace {
 
-static constexpr char federatedLearningUrl[] = "https://fl.bravesoftware.com/";
+static constexpr char federatedLearningUrl[] = "https://fl.brave.com/";
 
 constexpr char kLastCheckedSlotPrefName[] = "brave.federated.last_checked_slot";
 constexpr char kEphemeralIdPrefName[] = "brave.federated.ephemeral_id";
